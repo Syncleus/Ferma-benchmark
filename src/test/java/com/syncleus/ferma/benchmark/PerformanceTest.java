@@ -242,7 +242,7 @@ public class PerformanceTest {
         final long totoromElapsed = time.stop();
 
         System.out.println();
-        System.out.println("=== testGetFramedVerticiesAndNextTyped ===");
+        System.out.println("=== testGetFramedVerticiesAndNextUntyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: Not capable");
