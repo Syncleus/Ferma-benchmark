@@ -18,13 +18,9 @@
  ******************************************************************************/
 package com.syncleus.ferma.benchmark;
 
-import com.syncleus.ferma.annotations.InVertex;
-import com.syncleus.ferma.annotations.OutVertex;
+import com.syncleus.ferma.annotations.Property;
 
-public interface FatherEdge {
-    @InVertex
-    FermaGod getFather();
-
-    @OutVertex
-    FermaGod getSon();
+public interface FermaGodExtended extends FermaGodIntermediate {
+    @Property("nickname")
+    String getNickName();
 }

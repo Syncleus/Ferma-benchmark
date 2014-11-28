@@ -36,7 +36,7 @@ public class GodGraphLoader {
         saturn.setProperty("name", "saturn");
         saturn.setProperty("age", 10000);
         saturn.setProperty("type", "titan");
-        saturn.setProperty("implementation_type", God.class.getName());
+        saturn.setProperty("implementation_type", FermaGod.class.getName());
 
         Vertex sky = graph.addVertex(null);
         ElementHelper.setProperties(sky, "name", "sky", "type", "location", "other", "more useless info");
@@ -45,31 +45,31 @@ public class GodGraphLoader {
         ElementHelper.setProperties(sea, "name", "sea", "type", "location");
 
         Vertex jupiter = graph.addVertex(null);
-        ElementHelper.setProperties(jupiter, "name", "jupiter", "age", 5000, "type", "god", "implementation_type", God.class.getName());
+        ElementHelper.setProperties(jupiter, "name", "jupiter", "age", 5000, "type", "god", "implementation_type", FermaGod.class.getName());
 
         Vertex neptune = graph.addVertex(null);
-        ElementHelper.setProperties(neptune, "name", "neptune", "age", 4500, "type", "god", "implementation_type", God.class.getName());
+        ElementHelper.setProperties(neptune, "name", "neptune", "age", 4500, "type", "god", "implementation_type", FermaGod.class.getName());
 
         Vertex hercules = graph.addVertex(null);
-        ElementHelper.setProperties(hercules, "name", "hercules", "age", 30, "type", "demigod", "implementation_type", GodExtended.class.getName());
+        ElementHelper.setProperties(hercules, "name", "hercules", "age", 30, "type", "demigod", "implementation_type", FermaGodExtended.class.getName());
 
         Vertex alcmene = graph.addVertex(null);
-        ElementHelper.setProperties(alcmene, "name", "alcmene", "age", 45, "type", "human", "implementation_type", God.class.getName());
+        ElementHelper.setProperties(alcmene, "name", "alcmene", "age", 45, "type", "human", "implementation_type", FermaGod.class.getName());
 
         Vertex pluto = graph.addVertex(null);
-        ElementHelper.setProperties(pluto, "name", "pluto", "age", 4000, "type", "god", "implementation_type", God.class.getName());
+        ElementHelper.setProperties(pluto, "name", "pluto", "age", 4000, "type", "god", "implementation_type", FermaGod.class.getName());
 
         Vertex nemean = graph.addVertex(null);
-        ElementHelper.setProperties(nemean, "name", "nemean", "type", "monster", "implementation_type", God.class.getName());
+        ElementHelper.setProperties(nemean, "name", "nemean", "type", "monster", "implementation_type", FermaGod.class.getName());
 
         Vertex hydra = graph.addVertex(null);
-        ElementHelper.setProperties(hydra, "name", "hydra", "type", "monster", "implementation_type", God.class.getName());
+        ElementHelper.setProperties(hydra, "name", "hydra", "type", "monster", "implementation_type", FermaGod.class.getName());
 
         Vertex cerberus = graph.addVertex(null);
-        ElementHelper.setProperties(cerberus, "name", "cerberus", "type", "monster", "implementation_type", God.class.getName());
+        ElementHelper.setProperties(cerberus, "name", "cerberus", "type", "monster", "implementation_type", FermaGod.class.getName());
 
         Vertex tartarus = graph.addVertex(null);
-        ElementHelper.setProperties(tartarus, "name", "tartarus", "type", "location", "implementation_type", God.class.getName());
+        ElementHelper.setProperties(tartarus, "name", "tartarus", "type", "location", "implementation_type", FermaGod.class.getName());
 
         // edges
 

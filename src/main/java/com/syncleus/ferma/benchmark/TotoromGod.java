@@ -18,13 +18,34 @@
  ******************************************************************************/
 package com.syncleus.ferma.benchmark;
 
-import com.syncleus.ferma.annotations.InVertex;
-import com.syncleus.ferma.annotations.OutVertex;
+import org.jglue.totorom.FramedVertex;
 
-public interface FatherEdge {
-    @InVertex
-    FermaGod getFather();
+public class TotoromGod extends FramedVertex {
+    public String getName() {
+        return this.getProperty("name");
+    }
 
-    @OutVertex
-    FermaGod getSon();
+    public void setName(String newName) {
+        this.setProperty("name", newName);
+    }
+
+    public void removeName() {
+        this.setProperty("name", null);
+    }
+
+    public Integer getAge() {
+        return this.getProperty("age");
+    }
+
+    public String getType() {
+        return this.getProperty("type");
+    }
+
+    public Iterable<? extends TotoromGod> getSons() {
+        return this.in("father").frame(TotoromGod.class);
+    }
+
+    Iterable<? extends TotoromGod> getParents() {
+        return this.out("father").frame(TotoromGod.class);
+    }
 }
