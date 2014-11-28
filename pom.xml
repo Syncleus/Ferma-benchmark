@@ -86,6 +86,20 @@
 		</snapshotRepository>
 	</distributionManagement>
 
+	<repositories>
+		<repository>
+			<id>syncleus.snapshots</id>
+			<name>Syncleus Maven Snapshot Repository</name>
+			<url>http://repo.syncleus.com/repository/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.syncleus.ferma</groupId>
