@@ -73,7 +73,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Java);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
         }
@@ -126,7 +126,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Untyped);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
         }
@@ -172,7 +172,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Java);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
@@ -233,7 +233,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Untyped);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
@@ -317,7 +317,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Java);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
@@ -374,7 +374,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Untyped);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
