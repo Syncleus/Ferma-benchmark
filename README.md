@@ -10,8 +10,7 @@ For more information see the main [Ferma Project page](https://github.com/freemo
 After starting the [Ferma project](https://github.com/Syncleus/Ferma) we decided to do a benchmark suite that compares
 Ferma with TinkerPop Frames, Totorom, and raw Blueprint calls. The purpose of Ferma is to be a high-performance
 alternative to all of these with the same convince of frames (annotations). As such having these benchmarks will help
-keep us on track as we develop the Ferma project. It is important to note we are comparing right now with the totorom
-SNAPSHOT as there have been some recent improvements there.
+keep us on track as we develop the Ferma project.
 
 The way I configured the benchmark is simple. I do the same task under each framework for a set number of iterations,
 recording the time it takes under each framework. I then provide a % comparing each of the alternative solutions to
@@ -22,40 +21,41 @@ is when compared against raw Blueprints, but this is to be expected.
 
 Here is the output I get on my computer (this is a very modern and overpowered computer):
 
-    === testGetFramedVerticiesTyped ===
-    blueprints comparison: 96.4289533592499%
-    totorom comparison: 267.4258014509324%
-    frames comparison: 104.2812839573229%
-
     === testGetFramedVerticiesUntyped ===
-    blueprints comparison: 93.29597377136415%
-    totorom comparison: 269.1028835861173%
+    blueprints comparison: 92.52451072453944%
+    totorom comparison: 291.8244188362433%
+    frames comparison: Not capable
+
+    === testGetFramedVerticiesTyped ===
+    blueprints comparison: 95.27096480804313%
+    totorom comparison: 290.537541185409%
+    frames comparison: 93.84834048518455%
+
+    === testGetFramedVerticiesAndNextUntyped ===
+    blueprints comparison: 56.88277266726579%
+    totorom comparison: 233.05768571442377%
     frames comparison: Not capable
 
     === testGetFramedVerticiesAndNextTyped ===
-    blueprints comparison: 58.81628404738877%
-    totorom comparison: 231.2218381934416%
-    frames comparison: Not capable
-
-    === testGetFramedVerticiesAndNextUntyped ===
-    blueprints comparison: 76.17905971740055%
-    totorom comparison: 249.84948165251478%
-    frames comparison: 210.75482573712438%
+    blueprints comparison: 79.81304027007491%
+    totorom comparison: 246.56771314953966%
+    frames comparison: 208.2637483295682%
 
     === testGetAnnotatedAdjacencies ===
     blueprints comparison: Not capable
     totorom comparison: Not capable
-    frames comparison: 128.16164815430258%
+    frames comparison: 131.7585697153527%
 
     === testGetConcreteAdjacenciesUntyped ===
-    blueprints comparison: 26.595091759814483%
-    totorom comparison: 119.24491582376943%
+    blueprints comparison: 26.855895921397128%
+    totorom comparison: 120.77521803703586%
     frames comparison: Not capable
 
     === testGetConcreteAdjacenciesTyped ===
     blueprints comparison: Not capable
-    totorom comparison: 114.77782400279175%
+    totorom comparison: 113.30430579833033%
     frames comparison: Not capable
+
 
 ## Obtaining the Source
 
