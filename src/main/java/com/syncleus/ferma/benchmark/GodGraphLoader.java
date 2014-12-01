@@ -18,9 +18,10 @@
  ******************************************************************************/
 package com.syncleus.ferma.benchmark;
 
-import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.blueprints.KeyIndexableGraph;
 import com.tinkerpop.blueprints.TransactionalGraph;
 import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.blueprints.util.ElementHelper;
 
 
@@ -28,10 +29,11 @@ import com.tinkerpop.blueprints.util.ElementHelper;
  * Example Graph factory that creates a graph based on roman mythology.
  */
 public class GodGraphLoader {
-    public static void load(final Graph graph) {
+    public static void load(final KeyIndexableGraph graph) {
 
         // vertices
-
+    	graph.createKeyIndex("name", Vertex.class);
+    	
         Vertex saturn = graph.addVertex(null);
         saturn.setProperty("name", "saturn");
         saturn.setProperty("age", 10000);

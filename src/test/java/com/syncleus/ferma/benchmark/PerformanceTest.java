@@ -20,9 +20,11 @@ package com.syncleus.ferma.benchmark;
 
 import com.codahale.metrics.*;
 import com.codahale.metrics.Timer;
+import com.syncleus.ferma.pipes.GremlinPipeline;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -35,6 +37,7 @@ public class PerformanceTest {
     private static final com.codahale.metrics.Timer TOTOROM_TIMER;
     private static final com.codahale.metrics.Timer FRAMES_TIMER;
     private static final com.codahale.metrics.Timer BLUEPRINTS_TIMER;
+    private static final com.codahale.metrics.Timer GREMLIN_TIMER;
 
     static {
         METRICS = new MetricRegistry();
@@ -42,6 +45,7 @@ public class PerformanceTest {
         TOTOROM_TIMER = METRICS.timer("totorom");
         FRAMES_TIMER = METRICS.timer("frames");
         BLUEPRINTS_TIMER = METRICS.timer("blueprints");
+        GREMLIN_TIMER = METRICS.timer("gremlin");
     }
 
     @Test
@@ -73,7 +77,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Java);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
         }
@@ -89,12 +93,24 @@ public class PerformanceTest {
             Assert.assertTrue(godsIterator.hasNext());
         }
         final long framesElapsed = time.stop();
+        
+        
+        //Blueprints test
+        time = GREMLIN_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterable<Vertex> gods = new GremlinPipeline<>(godGraph).V("name", "saturn");
+            Iterator<Vertex> godsIterator = gods.iterator();
+            Assert.assertTrue(godsIterator.hasNext());
+        }
+        final long gremlinElapsed = time.stop();
+
 
         System.out.println();
         System.out.println("=== testGetFramedVerticiesTyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -126,17 +142,28 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Untyped);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
         }
         final long totoromElapsed = time.stop();
 
+        //Gremlin test
+        time = GREMLIN_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterable<Vertex> gods = new GremlinPipeline<>(godGraph).V("name", "saturn");
+            Iterator<Vertex> godsIterator = gods.iterator();
+            Assert.assertTrue(godsIterator.hasNext());
+        }
+        final long gremlinElapsed = time.stop();
+        
+        
         System.out.println();
         System.out.println("=== testGetFramedVerticiesUntyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: Not capable");
+        System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -172,7 +199,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Java);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
@@ -193,11 +220,23 @@ public class PerformanceTest {
         }
         final long framesElapsed = time.stop();
 
+        //Gremlin test
+        time = GREMLIN_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterable<Vertex> gods = new GremlinPipeline<>(godGraph).V("name", "saturn");
+            Iterator<Vertex> godsIterator = gods.iterator();
+            Assert.assertTrue(godsIterator.hasNext());
+
+            godsIterator.next();
+        }
+        final long gremlinElapsed = time.stop();
+        
         System.out.println();
         System.out.println("=== testGetFramedVerticiesAndNextTyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -233,19 +272,31 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Untyped);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
             godsIterator.next();
         }
         final long totoromElapsed = time.stop();
+        
+        //Gremlin test
+        time = GREMLIN_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterable<Vertex> gods = new GremlinPipeline<>(godGraph).V("name", "saturn");
+            Iterator<Vertex> godsIterator = gods.iterator();
+            Assert.assertTrue(godsIterator.hasNext());
+
+            godsIterator.next();
+        }
+        final long gremlinElapsed = time.stop();
 
         System.out.println();
         System.out.println("=== testGetFramedVerticiesAndNextUntyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: Not capable");
+        System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -290,6 +341,7 @@ public class PerformanceTest {
         System.out.println("blueprints comparison: Not capable");
         System.out.println("totorom comparison: Not capable");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("gremlin comparison: Not capable");
     }
 
     @Test
@@ -317,7 +369,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Java);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
@@ -333,6 +385,7 @@ public class PerformanceTest {
         System.out.println("blueprints comparison: Not capable");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: Not capable");
+        System.out.println("gremlin comparison: Not capable");
     }
 
     @Test
@@ -374,7 +427,7 @@ public class PerformanceTest {
         final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Untyped);
         time = TOTOROM_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V("name", "saturn").frame(TotoromGod.class);
+            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
             Iterator<TotoromGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
@@ -384,11 +437,29 @@ public class PerformanceTest {
                 Assert.assertTrue(child.getParents().iterator().next().getName().equals("saturn"));
         }
         final long totoromElapsed = time.stop();
+        
+        
+        //Gremlin test
+        time = GREMLIN_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+        	
+            Iterable<Vertex> gods = new GremlinPipeline(godGraph).V("name", "saturn");
+            Iterator<Vertex> godsIterator = gods.iterator();
+            Assert.assertTrue(godsIterator.hasNext());
+
+            final Vertex father = godsIterator.next();
+            Iterable<? extends Vertex> children = new GremlinPipeline(father).in("father");
+            for(final Vertex child : children)
+                Assert.assertTrue(new GremlinPipeline(child).out("father").property("name").next().equals("saturn"));
+        }
+        final long gremlinElapsed = time.stop();
+
 
         System.out.println();
         System.out.println("=== testGetConcreteAdjacenciesUntyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: Not capable");
+        System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 }
