@@ -20,7 +20,6 @@ package com.syncleus.ferma.benchmark;
 
 import com.codahale.metrics.*;
 import com.codahale.metrics.Timer;
-import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import org.junit.Assert;
@@ -35,6 +34,7 @@ public class PerformanceTest {
     private static final com.codahale.metrics.Timer TOTOROM_TIMER;
     private static final com.codahale.metrics.Timer FRAMES_TIMER;
     private static final com.codahale.metrics.Timer BLUEPRINTS_TIMER;
+    private static final com.codahale.metrics.Timer GREMLIN_TIMER;
 
     static {
         METRICS = new MetricRegistry();
@@ -42,6 +42,7 @@ public class PerformanceTest {
         TOTOROM_TIMER = METRICS.timer("totorom");
         FRAMES_TIMER = METRICS.timer("frames");
         BLUEPRINTS_TIMER = METRICS.timer("blueprints");
+        GREMLIN_TIMER = METRICS.timer("gremlin");
     }
 
     @Test
@@ -89,12 +90,24 @@ public class PerformanceTest {
             Assert.assertTrue(godsIterator.hasNext());
         }
         final long framesElapsed = time.stop();
+        
+        
+        //Blueprints test
+        time = GREMLIN_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterable<Vertex> gods = new com.tinkerpop.gremlin.java.GremlinPipeline<>(godGraph).V("name", "saturn");
+            Iterator<Vertex> godsIterator = gods.iterator();
+            Assert.assertTrue(godsIterator.hasNext());
+        }
+        final long gremlinElapsed = time.stop();
+
 
         System.out.println();
         System.out.println("=== testGetFramedVerticiesTyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -132,11 +145,22 @@ public class PerformanceTest {
         }
         final long totoromElapsed = time.stop();
 
+        //Gremlin test
+        time = GREMLIN_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterable<Vertex> gods = new com.tinkerpop.gremlin.java.GremlinPipeline<>(godGraph).V("name", "saturn");
+            Iterator<Vertex> godsIterator = gods.iterator();
+            Assert.assertTrue(godsIterator.hasNext());
+        }
+        final long gremlinElapsed = time.stop();
+        
+        
         System.out.println();
         System.out.println("=== testGetFramedVerticiesUntyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: Not capable");
+        System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -193,11 +217,23 @@ public class PerformanceTest {
         }
         final long framesElapsed = time.stop();
 
+        //Gremlin test
+        time = GREMLIN_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterable<Vertex> gods = new com.tinkerpop.gremlin.java.GremlinPipeline<>(godGraph).V("name", "saturn");
+            Iterator<Vertex> godsIterator = gods.iterator();
+            Assert.assertTrue(godsIterator.hasNext());
+
+            godsIterator.next();
+        }
+        final long gremlinElapsed = time.stop();
+        
         System.out.println();
         System.out.println("=== testGetFramedVerticiesAndNextTyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -240,12 +276,24 @@ public class PerformanceTest {
             godsIterator.next();
         }
         final long totoromElapsed = time.stop();
+        
+        //Gremlin test
+        time = GREMLIN_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterable<Vertex> gods = new com.tinkerpop.gremlin.java.GremlinPipeline<>(godGraph).V("name", "saturn");
+            Iterator<Vertex> godsIterator = gods.iterator();
+            Assert.assertTrue(godsIterator.hasNext());
+
+            godsIterator.next();
+        }
+        final long gremlinElapsed = time.stop();
 
         System.out.println();
         System.out.println("=== testGetFramedVerticiesAndNextUntyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: Not capable");
+        System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -290,5 +338,6 @@ public class PerformanceTest {
         System.out.println("blueprints comparison: Not capable");
         System.out.println("totorom comparison: Not capable");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("gremlin comparison: Not capable");
     }
 }
