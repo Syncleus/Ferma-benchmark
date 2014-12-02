@@ -18,14 +18,14 @@
  ******************************************************************************/
 package com.syncleus.ferma.benchmark;
 
-import com.syncleus.ferma.FramedEdge;
-import com.syncleus.ferma.FramedVertex;
+import com.syncleus.ferma.EdgeFrame;
+import com.syncleus.ferma.VertexFrame;
 import com.syncleus.ferma.annotations.Adjacency;
 import com.syncleus.ferma.annotations.Incidence;
 import com.syncleus.ferma.annotations.Property;
 import com.tinkerpop.blueprints.Direction;
 
-public interface FermaGod {
+public interface FermaGod extends VertexFrame {
     @Property("name")
     String getName();
 
@@ -66,7 +66,7 @@ public interface FermaGod {
     FermaGod addSon(FermaGod son);
 
     @Adjacency(label="father", direction= Direction.IN)
-    FramedVertex addSon();
+    VertexFrame addSon();
 
     @Adjacency(label="father", direction= Direction.IN)
     FermaGod addSon(FermaGod son, Class<? extends FatherEdge> edge);
@@ -78,13 +78,13 @@ public interface FermaGod {
     void removeSon(FermaGod son);
 
     @Incidence(label="father", direction= Direction.IN)
-    Iterable<? extends FramedEdge> getSonEdges();
+    Iterable<? extends EdgeFrame> getSonEdges();
 
     @Incidence(label="father", direction= Direction.IN)
     <N extends FatherEdge> Iterable<? extends N> getSonEdges(Class<? extends N> type);
 
     @Incidence(label="father", direction= Direction.IN)
-    FramedEdge getSonEdge();
+    EdgeFrame getSonEdge();
 
     @Incidence(label="father", direction= Direction.IN)
     <N extends FatherEdge> N getSonEdge(Class<? extends N> type);

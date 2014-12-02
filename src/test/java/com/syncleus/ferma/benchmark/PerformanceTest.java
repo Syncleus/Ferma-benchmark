@@ -61,11 +61,11 @@ public class PerformanceTest {
         final long blueprintsElapsed = time.stop();
 
         //Ferma test
-        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.FramedGraph(godGraph, TEST_TYPES);
+        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.DelegatingFramedGraph(godGraph, true, false);
         time = FERMA_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            final Iterable<FermaGod> gods = fermaGraph.getFramedVertices("name", "saturn", FermaGod.class);
-            Iterator<FermaGod> godsIterator = gods.iterator();
+            final Iterable<? extends ConcreteFermaGod> gods = fermaGraph.getFramedVertices("name", "saturn", ConcreteFermaGod.class);
+            Iterator<? extends ConcreteFermaGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
         }
         final long fermaElapsed = time.stop();
@@ -114,11 +114,11 @@ public class PerformanceTest {
         final long blueprintsElapsed = time.stop();
 
         //Ferma test
-        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.FramedGraph(godGraph, TEST_TYPES);
+        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.DelegatingFramedGraph(godGraph, false, false);
         time = FERMA_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            final Iterable<FermaGod> gods = fermaGraph.getFramedVerticesExplicit("name", "saturn", FermaGod.class);
-            Iterator<FermaGod> godsIterator = gods.iterator();
+            final Iterable<? extends ConcreteFermaGod> gods = fermaGraph.getFramedVertices("name", "saturn", ConcreteFermaGod.class);
+            Iterator<? extends ConcreteFermaGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
         }
         final long fermaElapsed = time.stop();
@@ -158,11 +158,11 @@ public class PerformanceTest {
         final long blueprintsElapsed = time.stop();
 
         //Ferma test
-        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.FramedGraph(godGraph, TEST_TYPES);
+        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.DelegatingFramedGraph(godGraph, true, false);
         time = FERMA_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            final Iterable<FermaGod> gods = fermaGraph.getFramedVertices("name", "saturn", FermaGod.class);
-            Iterator<FermaGod> godsIterator = gods.iterator();
+            final Iterable<? extends ConcreteFermaGod> gods = fermaGraph.getFramedVertices("name", "saturn", ConcreteFermaGod.class);
+            Iterator<? extends ConcreteFermaGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
             godsIterator.next();
@@ -202,7 +202,7 @@ public class PerformanceTest {
 
     @Test
     public void testGetFramedVerticiesAndNextUntyped() {
-        final int iterations = 2500000;
+        final int iterations = 5000000;
 
         final TinkerGraph godGraph = new TinkerGraph();
         GodGraphLoader.load(godGraph);
@@ -219,11 +219,11 @@ public class PerformanceTest {
         final long blueprintsElapsed = time.stop();
 
         //Ferma test
-        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.FramedGraph(godGraph, TEST_TYPES);
+        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.DelegatingFramedGraph(godGraph, false, false);
         time = FERMA_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            final Iterable<FermaGod> gods = fermaGraph.getFramedVerticesExplicit("name", "saturn", FermaGod.class);
-            Iterator<FermaGod> godsIterator = gods.iterator();
+            final Iterable<? extends ConcreteFermaGod> gods = fermaGraph.getFramedVertices("name", "saturn", ConcreteFermaGod.class);
+            Iterator<? extends ConcreteFermaGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
             godsIterator.next();
@@ -256,15 +256,15 @@ public class PerformanceTest {
         GodGraphLoader.load(godGraph);
 
         //Ferma test
-        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.FramedGraph(godGraph, TEST_TYPES);
+        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.DelegatingFramedGraph(godGraph, true, true);
         Timer.Context time = FERMA_TIMER.time();
         for(int i = 0; i < iterations; i++) {
-            final Iterable<FermaGod> gods = fermaGraph.getFramedVertices("name", "saturn", FermaGod.class);
-            Iterator<FermaGod> godsIterator = gods.iterator();
+            final Iterable<? extends FermaGod> gods = fermaGraph.getFramedVertices("name", "saturn", FermaGod.class);
+            Iterator<? extends FermaGod> godsIterator = gods.iterator();
             Assert.assertTrue(godsIterator.hasNext());
 
             final FermaGod father = godsIterator.next();
-            Iterable<? extends FermaGod> children = father.getSons();
+            Iterable<? extends FermaGod> children = father.getSons(FermaGod.class);
             for(final FermaGod child : children)
                 Assert.assertTrue(child.getParents().iterator().next().getName().equals("saturn"));
         }
@@ -290,105 +290,5 @@ public class PerformanceTest {
         System.out.println("blueprints comparison: Not capable");
         System.out.println("totorom comparison: Not capable");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
-    }
-
-    @Test
-    public void testGetConcreteAdjacenciesTyped() {
-        final int iterations = 2500000;
-
-        final TinkerGraph godGraph = new TinkerGraph();
-        GodGraphLoader.load(godGraph);
-
-        //Ferma test
-        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.FramedGraph(godGraph, TEST_TYPES);
-        Timer.Context time = FERMA_TIMER.time();
-        for(int i = 0; i < iterations; i++) {
-            final Iterable<ConcreteFermaGod> gods = fermaGraph.getFramedVertices("name", "saturn", ConcreteFermaGod.class);
-            Iterator<ConcreteFermaGod> godsIterator = gods.iterator();
-            Assert.assertTrue(godsIterator.hasNext());
-
-            final ConcreteFermaGod father = godsIterator.next();
-            Iterable<? extends ConcreteFermaGod> children = father.getSons();
-            for(final ConcreteFermaGod child : children)
-                Assert.assertTrue(child.getParents().iterator().next().getName().equals("saturn"));
-        }
-        final long fermaElapsed = time.stop();
-
-        final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Java);
-        time = TOTOROM_TIMER.time();
-        for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
-            Iterator<TotoromGod> godsIterator = gods.iterator();
-            Assert.assertTrue(godsIterator.hasNext());
-
-            final TotoromGod father = godsIterator.next();
-            Iterable<? extends TotoromGod> children = father.getSons();
-            for(final TotoromGod child : children)
-                Assert.assertTrue(child.getParents().iterator().next().getName().equals("saturn"));
-        }
-        final long totoromElapsed = time.stop();
-
-        System.out.println();
-        System.out.println("=== testGetConcreteAdjacenciesTyped ===");
-        System.out.println("blueprints comparison: Not capable");
-        System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
-        System.out.println("frames comparison: Not capable");
-    }
-
-    @Test
-    public void testGetConcreteAdjacenciesUntyped() {
-        final int iterations = 2500000;
-
-        final TinkerGraph godGraph = new TinkerGraph();
-        GodGraphLoader.load(godGraph);
-
-        //Blueprints test
-        com.codahale.metrics.Timer.Context time = BLUEPRINTS_TIMER.time();
-        for(int i = 0; i < iterations; i++) {
-            Iterable<Vertex> gods = godGraph.getVertices("name", "saturn");
-            Iterator<Vertex> godsIterator = gods.iterator();
-            Assert.assertTrue(godsIterator.hasNext());
-
-            final Vertex father = godsIterator.next();
-            Iterable<? extends Vertex> children = father.getVertices(Direction.IN, "father");
-            for(final Vertex child : children)
-                Assert.assertTrue(child.getVertices(Direction.OUT, "father").iterator().next().getProperty("name").equals("saturn"));
-        }
-        final long blueprintsElapsed = time.stop();
-
-        //Ferma test
-        final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.FramedGraph(godGraph, TEST_TYPES);
-        time = FERMA_TIMER.time();
-        for(int i = 0; i < iterations; i++) {
-            final Iterable<ConcreteFermaGod> gods = fermaGraph.getFramedVerticesExplicit("name", "saturn", ConcreteFermaGod.class);
-            Iterator<ConcreteFermaGod> godsIterator = gods.iterator();
-            Assert.assertTrue(godsIterator.hasNext());
-
-            final ConcreteFermaGod father = godsIterator.next();
-            Iterable<? extends ConcreteFermaGod> children = father.getSons();
-            for(final ConcreteFermaGod child : children)
-                Assert.assertTrue(child.getParents().iterator().next().getName().equals("saturn"));
-        }
-        final long fermaElapsed = time.stop();
-
-        final org.jglue.totorom.FramedGraph totoromGraph = new org.jglue.totorom.FramedGraph(godGraph, org.jglue.totorom.FrameFactory.Default, org.jglue.totorom.TypeResolver.Untyped);
-        time = TOTOROM_TIMER.time();
-        for(int i = 0; i < iterations; i++) {
-            Iterable<TotoromGod> gods = totoromGraph.V().has("name", "saturn").frame(TotoromGod.class);
-            Iterator<TotoromGod> godsIterator = gods.iterator();
-            Assert.assertTrue(godsIterator.hasNext());
-
-            final TotoromGod father = godsIterator.next();
-            Iterable<? extends TotoromGod> children = father.getSons();
-            for(final TotoromGod child : children)
-                Assert.assertTrue(child.getParents().iterator().next().getName().equals("saturn"));
-        }
-        final long totoromElapsed = time.stop();
-
-        System.out.println();
-        System.out.println("=== testGetConcreteAdjacenciesUntyped ===");
-        System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
-        System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
-        System.out.println("frames comparison: Not capable");
     }
 }

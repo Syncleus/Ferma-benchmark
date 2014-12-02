@@ -18,9 +18,10 @@
  ******************************************************************************/
 package com.syncleus.ferma.benchmark;
 
-import com.syncleus.ferma.FramedVertex;
 
-public class ConcreteFermaGod extends FramedVertex {
+import com.syncleus.ferma.AbstractVertexFrame;
+
+public class ConcreteFermaGod extends AbstractVertexFrame {
     public String getName() {
         return this.getProperty("name");
     }
