@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.ferma.benchmark;
 
+import com.syncleus.ferma.ClassInitializer;
 import com.syncleus.ferma.EdgeFrame;
 import com.syncleus.ferma.VertexFrame;
 import com.syncleus.ferma.annotations.Adjacency;
@@ -60,7 +61,7 @@ public interface FermaGod extends VertexFrame {
     <N extends FermaGod> N addSon(Class<? extends N> type);
 
     @Adjacency(label="father", direction= Direction.IN)
-    <N extends FermaGod> N addSon(Class<? extends N> type, Class<? extends FatherEdge> edge);
+    <N extends FermaGod> N addSon(Class<? extends N> type, ClassInitializer<? extends FatherEdge> edge);
 
     @Adjacency(label="father", direction= Direction.IN)
     FermaGod addSon(FermaGod son);
@@ -69,7 +70,7 @@ public interface FermaGod extends VertexFrame {
     VertexFrame addSon();
 
     @Adjacency(label="father", direction= Direction.IN)
-    FermaGod addSon(FermaGod son, Class<? extends FatherEdge> edge);
+    FermaGod addSon(FermaGod son, ClassInitializer<? extends FatherEdge> edge);
 
     @Adjacency(label="father", direction= Direction.IN)
     void setSons(Iterable<? extends FermaGod> vertexSet);

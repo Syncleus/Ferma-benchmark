@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.ferma.benchmark;
 
+import com.syncleus.ferma.ClassInitializer;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.frames.*;
 
@@ -50,7 +51,7 @@ public interface FramesGod {
     Iterable<FramesGod> getParents();
 
     @Adjacency(label="father", direction= Direction.IN)
-    <N extends FramesGod> N addSon(Class<? extends N> type);
+    <N extends FramesGod> N addSon(ClassInitializer<? extends N> type);
 
     @Adjacency(label="father", direction= Direction.IN)
     FramesGod addSon(FermaGod son);

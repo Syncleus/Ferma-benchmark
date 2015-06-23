@@ -20,6 +20,7 @@ package com.syncleus.ferma.benchmark;
 
 import com.codahale.metrics.*;
 import com.codahale.metrics.Timer;
+import com.syncleus.ferma.DefaultClassInitializer;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import org.junit.Assert;

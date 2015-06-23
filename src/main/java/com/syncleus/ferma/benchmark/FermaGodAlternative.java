@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.ferma.benchmark;
 
+import com.syncleus.ferma.ClassInitializer;
 import com.syncleus.ferma.annotations.Adjacency;
 import com.tinkerpop.blueprints.Direction;
 
@@ -29,7 +30,7 @@ public interface FermaGodAlternative {
     <N extends FermaGod> N getSon(Class<? extends N> type);
 
     @Adjacency(label="father", direction= Direction.IN)
-    <N extends FermaGod> N addSon(Class<? extends N> type);
+    <N extends FermaGod> N addSon(ClassInitializer<? extends N> type);
 
     @Adjacency(label="")
     <N extends FermaGod> Iterable<? extends N> getNoLabel(Class<? extends N> type);
