@@ -21,41 +21,35 @@ is when compared against raw Blueprints, but this is to be expected.
 
 Here is the output I get on my computer (this is a very modern and overpowered computer):
 
-    === testGetFramedVerticiesUntyped ===
-    blueprints comparison: 92.52451072453944%
-    totorom comparison: 291.8244188362433%
-    frames comparison: Not capable
-
-    === testGetFramedVerticiesTyped ===
-    blueprints comparison: 95.27096480804313%
-    totorom comparison: 290.537541185409%
-    frames comparison: 93.84834048518455%
-
     === testGetFramedVerticiesAndNextUntyped ===
-    blueprints comparison: 56.88277266726579%
-    totorom comparison: 233.05768571442377%
+    blueprints comparison: 79.69072692698396%
+    totorom comparison: 481.9971835358758%
     frames comparison: Not capable
-
-    === testGetFramedVerticiesAndNextTyped ===
-    blueprints comparison: 79.81304027007491%
-    totorom comparison: 246.56771314953966%
-    frames comparison: 208.2637483295682%
+    gremlin comparison: 387.01946546351553%
 
     === testGetAnnotatedAdjacencies ===
     blueprints comparison: Not capable
     totorom comparison: Not capable
-    frames comparison: 131.7585697153527%
+    frames comparison: 147.66762519410636%
+    gremlin comparison: Not capable
 
-    === testGetConcreteAdjacenciesUntyped ===
-    blueprints comparison: 26.855895921397128%
-    totorom comparison: 120.77521803703586%
+    === testGetFramedVerticiesUntyped ===
+    blueprints comparison: 89.70774373047517%
+    totorom comparison: 424.63802661948523%
     frames comparison: Not capable
+    gremlin comparison: 394.6841823306472%
 
-    === testGetConcreteAdjacenciesTyped ===
-    blueprints comparison: Not capable
-    totorom comparison: 113.30430579833033%
-    frames comparison: Not capable
+    === testGetFramedVerticiesAndNextTyped ===
+    blueprints comparison: 72.41328985684804%
+    totorom comparison: 331.4376182492388%
+    frames comparison: 194.97457588391953%
+    gremlin comparison: 291.4059621108095%
 
+    === testGetFramedVerticiesTyped ===
+    blueprints comparison: 92.33925054886328%
+    totorom comparison: 420.70409351338725%
+    frames comparison: 96.37876492541486%
+    gremlin comparison: 394.609052258521%
 
 ## Obtaining the Source
 
