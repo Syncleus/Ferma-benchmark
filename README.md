@@ -3,7 +3,7 @@
 This is a simple application to act as a benchmark comparing the Ferma Graph-to-Object layer with Totorom, TinkerPop
 Frames, and TinkerPop Blueprints. It will help us ensure Ferma remains the top-performing option.
 
-For more information see the main [Ferma Project page](https://github.com/freemo/Ferma).
+For more information see the main [Ferma wiki page](http://wiki.syncleus.com/index.php/Ferma).
 
 ## Results
 
