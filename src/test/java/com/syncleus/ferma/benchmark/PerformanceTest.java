@@ -269,7 +269,7 @@ public class PerformanceTest {
         time = PEAPOD_TIMER.time();
         for(int i = 0; i < iterations; i++) {
             Iterator<PeapodGod> it = peapodGraph.V(PeapodGod.class).has("name", "saturn");
-           // Assert.assertTrue(it.hasNext()); TODO
+            Assert.assertTrue(it.hasNext());
             it.next();
         }
         final long peapodElapsed = time.stop();
