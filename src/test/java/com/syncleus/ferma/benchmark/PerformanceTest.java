@@ -20,11 +20,12 @@ package com.syncleus.ferma.benchmark;
 
 import com.codahale.metrics.*;
 import com.codahale.metrics.Timer;
-import com.syncleus.ferma.DefaultClassInitializer;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerFactory;
 import org.junit.Assert;
 import org.junit.Test;
+import peapod.FramedGraphTraversal;
 
 import java.util.*;
 
@@ -35,7 +36,9 @@ public class PerformanceTest {
     private static final com.codahale.metrics.Timer TOTOROM_TIMER;
     private static final com.codahale.metrics.Timer FRAMES_TIMER;
     private static final com.codahale.metrics.Timer BLUEPRINTS_TIMER;
+    private static final com.codahale.metrics.Timer TINKERPOP3_TIMER;
     private static final com.codahale.metrics.Timer GREMLIN_TIMER;
+    private static final com.codahale.metrics.Timer PEAPOD_TIMER;
 
     static {
         METRICS = new MetricRegistry();
@@ -43,7 +46,9 @@ public class PerformanceTest {
         TOTOROM_TIMER = METRICS.timer("totorom");
         FRAMES_TIMER = METRICS.timer("frames");
         BLUEPRINTS_TIMER = METRICS.timer("blueprints");
+        TINKERPOP3_TIMER = METRICS.timer("tinkerpop3");
         GREMLIN_TIMER = METRICS.timer("gremlin");
+        PEAPOD_TIMER = METRICS.timer("peapod");
     }
 
     @Test
@@ -53,6 +58,9 @@ public class PerformanceTest {
         final TinkerGraph godGraph = new TinkerGraph();
         GodGraphLoader.load(godGraph);
 
+        final org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph godGraph3 = TinkerFactory.createClassic();
+        GodGraph3Loader.load(godGraph3);
+
         //Blueprints test
         com.codahale.metrics.Timer.Context time = BLUEPRINTS_TIMER.time();
         for(int i = 0; i < iterations; i++) {
@@ -61,6 +69,13 @@ public class PerformanceTest {
             Assert.assertTrue(godsIterator.hasNext());
         }
         final long blueprintsElapsed = time.stop();
+
+        //Tinkerpop 3 test
+        time = TINKERPOP3_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Assert.assertTrue(godGraph3.traversal().V().has("name", "saturn").hasNext());
+        }
+        final long tinkerpop3Elapsed = time.stop();
 
         //Ferma test
         final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.DelegatingFramedGraph(godGraph, true, false);
@@ -91,8 +106,8 @@ public class PerformanceTest {
             Assert.assertTrue(godsIterator.hasNext());
         }
         final long framesElapsed = time.stop();
-        
-        
+
+
         //Blueprints test
         time = GREMLIN_TIMER.time();
         for(int i = 0; i < iterations; i++) {
@@ -102,13 +117,22 @@ public class PerformanceTest {
         }
         final long gremlinElapsed = time.stop();
 
+        final peapod.FramedGraph peapodGraph = new peapod.FramedGraph(godGraph3, PeapodGod.class.getPackage());
+        time = PEAPOD_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Assert.assertTrue(peapodGraph.V(PeapodGod.class).has("name", "saturn").hasNext());
+        }
+        final long peapodElapsed = time.stop();
+
 
         System.out.println();
         System.out.println("=== testGetFramedVerticiesTyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("tinkerpop3 comparison: " + ((double) tinkerpop3Elapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("peapod comparison: " +((double) peapodElapsed) /((double) fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -154,8 +178,8 @@ public class PerformanceTest {
             Assert.assertTrue(godsIterator.hasNext());
         }
         final long gremlinElapsed = time.stop();
-        
-        
+
+
         System.out.println();
         System.out.println("=== testGetFramedVerticiesUntyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
@@ -171,6 +195,9 @@ public class PerformanceTest {
         final TinkerGraph godGraph = new TinkerGraph();
         GodGraphLoader.load(godGraph);
 
+        final org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph godGraph3 = TinkerFactory.createClassic();
+        GodGraph3Loader.load(godGraph3);
+
         //Blueprints test
         com.codahale.metrics.Timer.Context time = BLUEPRINTS_TIMER.time();
         for(int i = 0; i < iterations; i++) {
@@ -181,6 +208,15 @@ public class PerformanceTest {
             godsIterator.next();
         }
         final long blueprintsElapsed = time.stop();
+
+        //Tinkerpop 3 test
+        time = TINKERPOP3_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterator<org.apache.tinkerpop.gremlin.structure.Vertex> it = godGraph3.traversal().V().has("name", "saturn");
+            Assert.assertTrue(it.hasNext());
+            it.next();
+        }
+        final long tinkerpop3Elapsed = time.stop();
 
         //Ferma test
         final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.DelegatingFramedGraph(godGraph, true, false);
@@ -228,13 +264,24 @@ public class PerformanceTest {
             godsIterator.next();
         }
         final long gremlinElapsed = time.stop();
-        
+
+        final peapod.FramedGraph peapodGraph = new peapod.FramedGraph(godGraph3, PeapodGod.class.getPackage());
+        time = PEAPOD_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterator<PeapodGod> it = peapodGraph.V(PeapodGod.class).has("name", "saturn");
+           // Assert.assertTrue(it.hasNext()); TODO
+            it.next();
+        }
+        final long peapodElapsed = time.stop();
+
         System.out.println();
         System.out.println("=== testGetFramedVerticiesAndNextTyped ===");
         System.out.println("blueprints comparison: " + ((double)blueprintsElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("tinkerpop3 comparison: " +((double) tinkerpop3Elapsed) /((double) fermaElapsed) * 100.0 + "%");
         System.out.println("totorom comparison: " + ((double)totoromElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("gremlin comparison: " + ((double)gremlinElapsed) / ((double)fermaElapsed) * 100.0 + "%");
+        System.out.println("peapod comparison: " +((double) peapodElapsed) /((double) fermaElapsed) * 100.0 + "%");
     }
 
     @Test
@@ -277,7 +324,7 @@ public class PerformanceTest {
             godsIterator.next();
         }
         final long totoromElapsed = time.stop();
-        
+
         //Gremlin test
         time = GREMLIN_TIMER.time();
         for(int i = 0; i < iterations; i++) {
@@ -304,6 +351,9 @@ public class PerformanceTest {
         final TinkerGraph godGraph = new TinkerGraph();
         GodGraphLoader.load(godGraph);
 
+        final org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph godGraph3 = TinkerFactory.createClassic();
+        GodGraph3Loader.load(godGraph3);
+
         //Ferma test
         final com.syncleus.ferma.FramedGraph fermaGraph = new com.syncleus.ferma.DelegatingFramedGraph(godGraph, true, true);
         Timer.Context time = FERMA_TIMER.time();
@@ -319,6 +369,7 @@ public class PerformanceTest {
         }
         final long fermaElapsed = time.stop();
 
+        //Frames test
         com.tinkerpop.frames.FramedGraphFactory factory = new com.tinkerpop.frames.FramedGraphFactory(new com.tinkerpop.frames.modules.gremlingroovy.GremlinGroovyModule());
         final com.tinkerpop.frames.FramedGraph framesGraph = factory.create(godGraph);
         time = FRAMES_TIMER.time();
@@ -334,11 +385,27 @@ public class PerformanceTest {
         }
         final long framesElapsed = time.stop();
 
+        //Peapod test
+        final peapod.FramedGraph peapodGraph = new peapod.FramedGraph(godGraph3, PeapodGod.class.getPackage());
+        time = PEAPOD_TIMER.time();
+        for(int i = 0; i < iterations; i++) {
+            Iterator<PeapodGod> it = peapodGraph.V(PeapodGod.class).has("name", "saturn");
+            Assert.assertTrue(it.hasNext());
+
+            final PeapodGod father = it.next();
+            List<PeapodGod> children = father.getSons();
+            for(final PeapodGod child : children)
+                Assert.assertTrue(child.getParents().iterator().next().getName().equals("saturn"));
+
+        }
+        final long peapodElapsed = time.stop();
+
         System.out.println();
         System.out.println("=== testGetAnnotatedAdjacencies ===");
         System.out.println("blueprints comparison: Not capable");
         System.out.println("totorom comparison: Not capable");
         System.out.println("frames comparison: " + ((double)framesElapsed) / ((double)fermaElapsed) * 100.0 + "%");
         System.out.println("gremlin comparison: Not capable");
+        System.out.println("peapod comparison: " + ((double)peapodElapsed) / ((double)fermaElapsed) * 100.0 + "%");
     }
 }
