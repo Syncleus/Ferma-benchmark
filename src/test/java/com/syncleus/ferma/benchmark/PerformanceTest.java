@@ -33,7 +33,7 @@ import java.util.List;
 
 public class PerformanceTest {
 
-    private static final int ITERATIONS = 2_000_00;
+    private static final int ITERATIONS = 2_000_000;
 
     private static final MetricRegistry METRICS;
     private static final Timer FERMA_TIMER;
