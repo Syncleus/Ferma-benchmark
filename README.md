@@ -21,35 +21,45 @@ is when compared against raw Blueprints, but this is to be expected.
 
 Here is the output I get on my computer (this is a very modern and overpowered computer):
 
-    === testGetFramedVerticiesAndNextUntyped ===
-    blueprints comparison: 79.69072692698396%
-    totorom comparison: 481.9971835358758%
+    === testGetFramedVerticesAndNextUntyped ===
+    blueprints comparison: 80.86610293318655%
+    tinkerpop3 comparison: 1171.5222612963312%
+    totorom comparison: 493.3926104721222%
     frames comparison: Not capable
-    gremlin comparison: 387.01946546351553%
+    gremlin comparison: 338.6254392506979%
+    peapod comparison: Not Capable
+
+    === testGetFramedVerticesAndNextTyped ===
+    blueprints comparison: Not Capable
+    tinkerpop3 comparison: Not Capable
+    totorom comparison: 349.97570532583313%
+    frames comparison: 187.0806085510584%
+    gremlin comparison: 315.60038209596655%
+    peapod comparison: 1670.368656863122%
+
+    === testGetFramedVerticesUntyped ===
+    blueprints comparison: 93.24348944761809%
+    tinkerpop3 comparison: 1698.9392272131245%
+    totorom comparison: 423.67469757091635%
+    frames comparison: Not capable
+    gremlin comparison: 390.5251428045431%
+    peapod comparison: Not Capable
+
+    === testGetFramedVerticesTyped ===
+    blueprints comparison: Not Capable
+    tinkerpop3 comparison: Not Capable
+    totorom comparison: 403.4655305796317%
+    frames comparison: 99.93781089933795%
+    gremlin comparison: Not Capable
+    peapod comparison: 2074.05266481737%
 
     === testGetAnnotatedAdjacencies ===
     blueprints comparison: Not capable
+    tinkerpop3 comparison: Not Capable
     totorom comparison: Not capable
-    frames comparison: 147.66762519410636%
+    frames comparison: 209.05528566425681%
     gremlin comparison: Not capable
-
-    === testGetFramedVerticiesUntyped ===
-    blueprints comparison: 89.70774373047517%
-    totorom comparison: 424.63802661948523%
-    frames comparison: Not capable
-    gremlin comparison: 394.6841823306472%
-
-    === testGetFramedVerticiesAndNextTyped ===
-    blueprints comparison: 72.41328985684804%
-    totorom comparison: 331.4376182492388%
-    frames comparison: 194.97457588391953%
-    gremlin comparison: 291.4059621108095%
-
-    === testGetFramedVerticiesTyped ===
-    blueprints comparison: 92.33925054886328%
-    totorom comparison: 420.70409351338725%
-    frames comparison: 96.37876492541486%
-    gremlin comparison: 394.609052258521%
+    peapod comparison: 265.72131591027147%
 
 ## Obtaining the Source
 
