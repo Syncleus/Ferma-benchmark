@@ -21,22 +21,6 @@ is when compared against raw Blueprints, but this is to be expected.
 
 Here is the output I get on my computer (this is a very modern and overpowered computer):
 
-    === testGetFramedVerticesAndNextUntyped ===
-    blueprints comparison: 80.86610293318655%
-    tinkerpop3 comparison: 1171.5222612963312%
-    totorom comparison: 493.3926104721222%
-    frames comparison: Not capable
-    gremlin comparison: 338.6254392506979%
-    peapod comparison: Not Capable
-
-    === testGetFramedVerticesAndNextTyped ===
-    blueprints comparison: Not Capable
-    tinkerpop3 comparison: Not Capable
-    totorom comparison: 349.97570532583313%
-    frames comparison: 187.0806085510584%
-    gremlin comparison: 315.60038209596655%
-    peapod comparison: 1670.368656863122%
-
     === testGetFramedVerticesUntyped ===
     blueprints comparison: 93.24348944761809%
     tinkerpop3 comparison: 1698.9392272131245%
@@ -52,6 +36,22 @@ Here is the output I get on my computer (this is a very modern and overpowered c
     frames comparison: 99.93781089933795%
     gremlin comparison: Not Capable
     peapod comparison: 2074.05266481737%
+
+    === testGetFramedVerticesAndNextUntyped ===
+    blueprints comparison: 80.86610293318655%
+    tinkerpop3 comparison: 1171.5222612963312%
+    totorom comparison: 493.3926104721222%
+    frames comparison: Not capable
+    gremlin comparison: 338.6254392506979%
+    peapod comparison: Not Capable
+
+    === testGetFramedVerticesAndNextTyped ===
+    blueprints comparison: Not Capable
+    tinkerpop3 comparison: Not Capable
+    totorom comparison: 349.97570532583313%
+    frames comparison: 187.0806085510584%
+    gremlin comparison: 315.60038209596655%
+    peapod comparison: 1670.368656863122%
 
     === testGetAnnotatedAdjacencies ===
     blueprints comparison: Not capable
